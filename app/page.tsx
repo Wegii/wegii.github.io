@@ -198,7 +198,8 @@ export default function Page() {
         {data.stats.map((stat, i) => (
           <div key={i} className="bg-zinc-900/40 border border-zinc-800/50 rounded-[2rem] p-8 flex flex-col items-center justify-center hover:bg-zinc-800/40 transition-all group relative overflow-hidden">
             <div className="absolute -right-2 -bottom-2 text-white/5 transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
-               {React.cloneElement(stat.icon as React.ReactElement, { size: 80 })}
+               {/* Fixed the type error by adding a more specific props cast */}
+               {React.cloneElement(stat.icon as React.ReactElement<any>, { size: 80 })}
             </div>
             <span className="text-5xl font-bold text-white relative z-10 group-hover:scale-110 transition-transform duration-500">{stat.value}</span>
             <span className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-3 font-black relative z-10">{stat.label}</span>
