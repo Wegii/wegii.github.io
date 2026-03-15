@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
 import { 
-  Github, Linkedin, Mail, Terminal, MapPin, Cpu, BookOpen, 
-  Mountain, Music, FileText, Code, GraduationCap, ScrollText,
-  Binary, Layers, ExternalLink, Zap
+  Github, Linkedin, Mail, MapPin, BookOpen, 
+  Mountain, Music, FileText, GraduationCap, ScrollText,
+  Binary, Layers, ExternalLink, Zap, Milestone, Globe
 } from 'lucide-react';
 
 // --- Interfaces for TypeScript type safety ---
@@ -15,11 +15,20 @@ interface Publication {
   links: { paper?: string; arxiv?: string; github?: string; };
 }
 
-interface Thesis {
+interface EducationEntry {
   degree: string;
+  institution: string;
+  location: string;
+  period: string;
+  specialization: string;
+  details?: string;
+}
+
+interface Thesis {
+  type: string;
   title: string;
   focus: string;
-  tag: string;
+  grade?: string;
 }
 
 interface BentoCardProps {
@@ -38,7 +47,7 @@ const SITE_DATA = {
   },
   stats: [
     { label: "Publications", value: "4", icon: <FileText size={18}/>, color: "from-blue-500/20" },
-    { label: "Projects", value: "24+", icon: <Binary size={18}/>, color: "from-purple-500/20" }
+    { label: "Projects", value: "10+", icon: <Binary size={18}/>, color: "from-purple-500/20" }
   ],
   expertise: [
     { category: "Quantum Error Correction", skills: ["Surface Codes", "Lattice Surgery", "tQEC", "Decoders"], color: "text-blue-400", bg: "bg-blue-400/5" },
@@ -49,16 +58,48 @@ const SITE_DATA = {
     { title: "Crumbling Mountains: Pre-failure analysis", venue: "EGU 2025", year: "2025", type: "Presentation", links: { arxiv: "#" } },
     { title: "Efficient Silicon Nitride Waveguide Crossings", venue: "Optics Letters", year: "2023", type: "Journal", links: { github: "#", paper: "#" } },
   ],
+  education: [
+    { 
+      degree: "M.Sc. Informatics", 
+      institution: "Technical University of Munich", 
+      location: "Munich, GER", 
+      period: "2023 — 2026",
+      specialization: "Quantum Computing and Machine Learning",
+      details: "Grade: 2.1 (interm.)"
+    },
+    { 
+      degree: "B.Sc. Informatics", 
+      institution: "Technical University of Munich", 
+      location: "Munich, GER", 
+      period: "2018 — 2023",
+      specialization: "Applied Math, QC, and HPC",
+      details: "Grade: 2.7"
+    },
+    { 
+      degree: "Erasmus+ Research", 
+      institution: "Universitetet i Bergen", 
+      location: "Bergen, NOR", 
+      period: "2021 — 2022",
+      specialization: "Earth Science: Ice Sheet & Climate Modeling"
+    }
+  ],
   theses: [
-    { degree: "Master's", title: "Scalable Fault-Tolerant Compiler", focus: "QEC, Lattice Surgery", tag: "Active" },
-    { degree: "Bachelor's", title: "Photonic Quantum Compiler", focus: "Hardware Aware Mapping", tag: "Archive" }
+    { 
+      type: "Master's Thesis", 
+      title: "Scalable Fault-Tolerant Quantum Compiler for Chiplet Architectures", 
+      focus: "QEC, Lattice Surgery, Architecture" 
+    },
+    { 
+      type: "Bachelor's Thesis", 
+      title: "Hardware Aware Compiler for Photonic Quantum Computing", 
+      focus: "Mapping, Photonic Synthesis, LOCI IR" 
+    }
   ]
 };
 
 // --- Sub-Components for the Bento Grid ---
 
 const BentoCard = ({ children, className = "", spotlight = false }: BentoCardProps) => (
-  /* Using the bento-card-base class from globals.css */
   <div className={`bento-card-base group ${className}`}>
     {spotlight && (
       <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-600/10 blur-[80px] transition-opacity duration-500 group-hover:opacity-100 opacity-50" />
@@ -108,7 +149,7 @@ export default function App() {
         {/* 2. Stats Section */}
         {d.stats.map((stat, i) => (
           <BentoCard key={i} className="flex flex-col items-center justify-center text-center">
-            <div className={`mb-4 p-4 rounded-3xl bg-gradient-to-br ${stat.color} to-transparent border border-white/5 text-white`}>
+            <div className={`mb-4 p-4 rounded-3xl bg-gradient-to-br ${stat.color} to-transparent border border-white/10 text-white shadow-lg shadow-black/20`}>
               {stat.icon}
             </div>
             <div className="text-4xl font-bold text-white tabular-nums">{stat.value}</div>
@@ -128,7 +169,7 @@ export default function App() {
                 <span className={`text-[10px] font-black uppercase tracking-widest ${exp.color}`}>{exp.category}</span>
                 <div className="flex flex-wrap gap-1">
                   {exp.skills.map(s => (
-                    <span key={s} className="px-2 py-1 bg-white/5 rounded-md text-[10px] text-zinc-400 border border-white/5 whitespace-nowrap">
+                    <span key={s} className="px-2 py-1 bg-white/5 rounded-md text-[10px] text-zinc-400 border border-white/10 hover:border-white/20 hover:text-white transition-colors whitespace-nowrap">
                       {s}
                     </span>
                   ))}
@@ -139,7 +180,7 @@ export default function App() {
         </BentoCard>
 
         {/* 4. Publications */}
-        <BentoCard className="md:col-span-4">
+        <BentoCard className="md:col-span-4 border-white/10">
           <div className="flex justify-between items-center mb-8">
              <div className="flex items-center gap-3">
                 <BookOpen className="text-purple-500" size={20} />
@@ -149,17 +190,18 @@ export default function App() {
           </div>
           <div className="space-y-4">
             {d.publications.map((pub, i) => (
-              <div key={i} className="group/item flex flex-col md:flex-row md:items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all">
+              <div key={i} className="group/item flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-purple-500/40 hover:bg-white/[0.06] transition-all duration-300">
                 <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="text-[9px] font-black bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded uppercase tracking-tighter">{pub.type}</span>
-                    <span className="text-xs font-bold text-purple-400 font-mono">{pub.venue}</span>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-[9px] font-black bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded uppercase tracking-tighter border border-white/5">{pub.type}</span>
+                    <span className="text-xs font-bold text-purple-400 font-mono tracking-tight">{pub.venue}</span>
+                    <span className="text-[10px] text-zinc-600 font-mono">{pub.year}</span>
                   </div>
-                  <h3 className="text-white font-semibold group-hover/item:text-blue-400 transition-colors">{pub.title}</h3>
+                  <h3 className="text-white text-lg font-semibold group-hover/item:text-purple-300 transition-colors">{pub.title}</h3>
                 </div>
                 <div className="flex gap-2 mt-4 md:mt-0">
                   {Object.keys(pub.links).map(link => (
-                    <div key={link} className="p-2 bg-black/40 rounded-lg text-zinc-500 hover:text-white transition-colors cursor-pointer border border-white/5">
+                    <div key={link} className="p-2.5 bg-black/40 rounded-xl text-zinc-500 hover:text-white hover:border-white/20 transition-all cursor-pointer border border-white/10 group-hover/item:border-white/20">
                       <ExternalLink size={14} />
                     </div>
                   ))}
@@ -169,41 +211,62 @@ export default function App() {
           </div>
         </BentoCard>
 
-        {/* 5. Theses */}
-        <BentoCard className="md:row-span-1 md:col-span-2">
+        {/* 5. Combined Education Row (Replacing Terminal/Resume) */}
+        
+        {/* Thesis Column */}
+        <BentoCard className="md:col-span-2 md:row-span-1">
           <div className="flex items-center gap-3 mb-8">
             <ScrollText className="text-emerald-500" size={20} />
-            <h2 className="text-xl font-bold text-white">Academic Deep Dive</h2>
+            <h2 className="text-xl font-bold text-white">Thesis Research</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-4">
             {d.theses.map((t, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded mb-2 inline-block ${t.tag === 'Active' ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'}`}>{t.tag}</span>
-                <h4 className="text-white font-bold leading-tight mb-2">{t.title}</h4>
-                <p className="text-xs text-zinc-500 italic">{t.focus}</p>
+              <div key={i} className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/20 hover:border-emerald-500/40 transition-colors group/thesis">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded mb-3 inline-block bg-emerald-500 text-black shadow-lg shadow-emerald-500/20">
+                  {t.type}
+                </span>
+                <h4 className="text-white font-bold leading-tight mb-2 group-hover/thesis:text-emerald-400 transition-colors">{t.title}</h4>
+                <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-mono uppercase tracking-tighter">
+                  <Milestone size={12} /> {t.focus}
+                </div>
               </div>
             ))}
           </div>
         </BentoCard>
 
-        {/* 6. Contact/CTA */}
-        <BentoCard className="flex flex-col justify-center items-center bg-blue-600/10 border-blue-500/30 group/cta cursor-pointer">
-           <Terminal className="text-blue-400 mb-4 group-hover/cta:scale-110 transition-transform" size={32} />
-           <span className="text-white font-bold text-sm">Open Terminal</span>
-           <span className="text-[9px] text-blue-400/60 font-mono mt-1">v2.0_stable</span>
-        </BentoCard>
-
-        <BentoCard className="flex flex-col justify-center items-center">
-           <GraduationCap className="text-zinc-500 mb-4" size={32} />
-           <span className="text-white font-bold text-sm">Resume.pdf</span>
-           <FileText className="text-zinc-700 mt-2" size={16} />
+        {/* Academic Journey Column */}
+        <BentoCard className="md:col-span-2">
+          <div className="flex items-center gap-3 mb-8">
+            <GraduationCap className="text-blue-500" size={20} />
+            <h2 className="text-xl font-bold text-white">Academic Journey</h2>
+          </div>
+          <div className="space-y-4">
+            {d.education.map((edu, i) => (
+              <div key={i} className="relative pl-6 border-l border-white/10 group/edu">
+                <div className="absolute left-[-5px] top-1 w-2 h-2 rounded-full bg-blue-500/40 group-hover/edu:bg-blue-500 transition-colors" />
+                <div className="flex justify-between items-start mb-1">
+                  <h4 className="text-white font-bold text-sm">{edu.degree}</h4>
+                  <span className="text-[10px] font-mono text-zinc-600">{edu.period}</span>
+                </div>
+                <div className="text-xs text-blue-400 mb-1 flex items-center gap-1">
+                  <Globe size={10} /> {edu.institution}
+                </div>
+                <p className="text-[10px] text-zinc-500 leading-relaxed uppercase tracking-wider">{edu.specialization}</p>
+                {edu.details && (
+                  <span className="mt-2 inline-block text-[9px] font-mono text-zinc-600 bg-white/5 px-2 py-0.5 rounded border border-white/5 italic">
+                    {edu.details}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
         </BentoCard>
 
       </div>
 
       <footer className="mt-20 text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-white/5 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
-           <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" /> 
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-white/10 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-widest shadow-xl">
+           <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" /> 
            Last Sync: {new Date().toLocaleDateString()}
         </div>
       </footer>
