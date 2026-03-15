@@ -1,25 +1,11 @@
+'use client';
 import React from 'react';
 import { 
-  Github, 
-  Linkedin, 
-  Mail, 
-  Terminal,
-  MapPin,
-  Cpu,
-  BookOpen,
-  Mountain,
-  Music,
-  FileText,
-  Code,
-  GraduationCap,
-  ScrollText,
-  Binary,
-  Layers
+  Github, Linkedin, Mail, Terminal, MapPin, Cpu, BookOpen, 
+  Mountain, Music, FileText, Code, GraduationCap, ScrollText,
+  Binary, Layers
 } from 'lucide-react';
 
-/**
- * CONFIGURATION BLOCK - Derived from Peter Wegmann's Research Focus
- */
 const SITE_DATA = {
   profile: {
     name: "Peter Wegmann",
@@ -179,7 +165,7 @@ export default function App() {
         {data.stats.map((stat, i) => (
           <div key={i} className="bg-zinc-900/40 border border-zinc-800/50 rounded-[2rem] p-8 flex flex-col items-center justify-center hover:bg-zinc-800/40 transition-all group relative overflow-hidden">
             <div className="absolute -right-2 -bottom-2 text-white/5 transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
-               {stat.icon && React.cloneElement(stat.icon as React.ReactElement, { size: 80 })}
+               {stat.icon && React.isValidElement(stat.icon) && React.cloneElement(stat.icon as React.ReactElement<any>, { size: 80 })}
             </div>
             <span className="text-5xl font-bold text-white relative z-10 group-hover:scale-110 transition-transform duration-500">{stat.value}</span>
             <span className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-3 font-black relative z-10">{stat.label}</span>
@@ -285,7 +271,6 @@ export default function App() {
                    <span className="text-[10px] font-bold text-zinc-600">{study.period}</span>
                 </div>
                 <div className="flex items-center gap-2 text-zinc-400 mb-2">
-                  <img src="https://www.tum.de/favicon.ico" alt="TUM" className="w-3 h-3 grayscale opacity-50 group-hover/study:grayscale-0 group-hover/study:opacity-100 transition-all" />
                   <span className="text-xs font-medium uppercase tracking-wider">{study.institution}</span>
                 </div>
                 <div className="flex items-start gap-2 bg-zinc-800/20 p-3 rounded-xl border border-zinc-800/50">
