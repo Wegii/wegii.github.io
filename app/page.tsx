@@ -6,7 +6,7 @@ import {
   Binary, Layers, ExternalLink, Zap
 } from 'lucide-react';
 
-// --- Data Types & Mock Data ---
+// --- Interfaces for TypeScript type safety ---
 interface Publication {
   title: string;
   venue: string;
@@ -20,6 +20,12 @@ interface Thesis {
   title: string;
   focus: string;
   tag: string;
+}
+
+interface BentoCardProps {
+  children: React.ReactNode;
+  className?: string;
+  spotlight?: boolean;
 }
 
 const SITE_DATA = {
@@ -51,8 +57,9 @@ const SITE_DATA = {
 
 // --- Sub-Components for the Bento Grid ---
 
-const BentoCard = ({ children, className = "", spotlight = false }) => (
-  <div className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-900/40 backdrop-blur-md transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/60 group ${className}`}>
+const BentoCard = ({ children, className = "", spotlight = false }: BentoCardProps) => (
+  /* Using the bento-card-base class from globals.css */
+  <div className={`bento-card-base group ${className}`}>
     {spotlight && (
       <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-600/10 blur-[80px] transition-opacity duration-500 group-hover:opacity-100 opacity-50" />
     )}
@@ -67,13 +74,9 @@ export default function App() {
 
   return (
     <main className="min-h-screen bg-[#050505] text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
-      {/* BENTO GRID CONFIGURATION:
-         - 4 Column layout for desktop (md:grid-cols-4)
-         - Auto rows with 1.5rem gap
-      */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
         
-        {/* 1. Primary Identity Card (Large 2x2 Span) */}
+        {/* 1. Primary Identity Card */}
         <BentoCard spotlight className="md:col-span-2 md:row-span-2 flex flex-col justify-between border-blue-500/20">
           <div>
             <div className="flex justify-between items-start mb-10">
@@ -102,7 +105,7 @@ export default function App() {
           </div>
         </BentoCard>
 
-        {/* 2. Stats Section (Individual Small Cards) */}
+        {/* 2. Stats Section */}
         {d.stats.map((stat, i) => (
           <BentoCard key={i} className="flex flex-col items-center justify-center text-center">
             <div className={`mb-4 p-4 rounded-3xl bg-gradient-to-br ${stat.color} to-transparent border border-white/5 text-white`}>
@@ -113,7 +116,7 @@ export default function App() {
           </BentoCard>
         ))}
 
-        {/* 3. Expertise Stack (Wide Card 2x1) */}
+        {/* 3. Expertise Stack */}
         <BentoCard className="md:col-span-2">
           <div className="flex items-center gap-3 mb-8">
             <Layers className="text-blue-500" size={20} />
@@ -135,7 +138,7 @@ export default function App() {
           </div>
         </BentoCard>
 
-        {/* 4. Publications (Long Horizontal Span 4x1) */}
+        {/* 4. Publications */}
         <BentoCard className="md:col-span-4">
           <div className="flex justify-between items-center mb-8">
              <div className="flex items-center gap-3">
@@ -166,7 +169,7 @@ export default function App() {
           </div>
         </BentoCard>
 
-        {/* 5. Theses (Tall Vertical Span 1x2) */}
+        {/* 5. Theses */}
         <BentoCard className="md:row-span-1 md:col-span-2">
           <div className="flex items-center gap-3 mb-8">
             <ScrollText className="text-emerald-500" size={20} />
@@ -183,7 +186,7 @@ export default function App() {
           </div>
         </BentoCard>
 
-        {/* 6. Contact/CTA (Small square) */}
+        {/* 6. Contact/CTA */}
         <BentoCard className="flex flex-col justify-center items-center bg-blue-600/10 border-blue-500/30 group/cta cursor-pointer">
            <Terminal className="text-blue-400 mb-4 group-hover/cta:scale-110 transition-transform" size={32} />
            <span className="text-white font-bold text-sm">Open Terminal</span>
