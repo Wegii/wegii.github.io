@@ -139,11 +139,26 @@ export default function App() {
             <div className="flex justify-between items-start mb-10">
               <img src={d.profile.avatar} className="w-24 h-24 rounded-3xl bg-zinc-800 p-1 border border-white/5" alt="Profile" />
               <div className="flex gap-2">
+                {/*
                  {['Github', 'Linkedin', 'Mail'].map(s => (
                    <div key={s} className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
                      {s === 'Github' ? <Github size={20}/> : s === 'Linkedin' ? <Linkedin size={20}/> : <Mail size={20}/>}
                    </div>
                  ))}
+                */}
+
+                  <a href="https://github.com/wegii" target="_blank" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
+                   <Github size={20}/>
+                 </a>
+                 <a href="https://linkedin.com/in/wegii" target="_blank" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
+                   <Linkedin size={20}/>
+                 </a>
+                 <a href="https://scholar.google.com/citations?hl=en&user=aPmT8iQAAAAJ" target="_blank" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer" title="Google Scholar">
+                   <GraduationCap size={20}/>
+                 </a>
+                 <a href="mailto:wegmannp@in.tum.de" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
+                   <Mail size={20}/>
+                 </a>
               </div>
             </div>
             <h1 className="text-5xl font-bold tracking-tighter text-white mb-2 leading-none">
@@ -184,12 +199,26 @@ export default function App() {
                   <h3 className="text-white text-lg font-semibold group-hover/item:text-purple-300 transition-colors">{pub.title}</h3>
                 </div>
                 <div className="flex gap-2 mt-4 md:mt-0">
-                  {/*.map(link => (*/}
+                  {/*
                   {Object.keys(pub.links).map(([key, url]) => ( 
                     <div key={url} className="p-2.5 bg-black/40 rounded-xl text-zinc-500 hover:text-white hover:border-white/20 transition-all cursor-pointer border border-white/10 group-hover/item:border-white/20">
-                      {/*<ExternalLink size={14} />*/}
                       {getLinkIcon(key)}
                     </div>
+                  ))}
+                  */}
+                  {Object.entries(pub.links).map(([key, url]) => (
+                    url !== "#" && (
+                      <a 
+                        key={key} 
+                        href={url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 p-2.5 bg-black/40 rounded-xl text-zinc-500 hover:text-white hover:border-white/40 transition-all border border-white/10 text-[10px] font-mono uppercase tracking-tighter group-hover/item:border-white/20"
+                      >
+                        {getLinkIcon(key)}
+                        <span>{key}</span>
+                      </a>
+                    )
                   ))}
                 </div>
               </div>
