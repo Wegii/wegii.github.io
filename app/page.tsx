@@ -43,15 +43,6 @@ const SITE_DATA = {
     bio: "Researcher at TUM specializing in Fault-Tolerant Quantum Compilers and Silicon Nitride Photonics. Bridging the gap between abstract QEC protocols and physical chiplet architectures.",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Peter&backgroundColor=0a0a0a",
   },
-  stats: [
-    { label: "Publications", value: "4", icon: <FileText size={18}/>, color: "from-blue-500/20" },
-    { label: "Projects", value: "10+", icon: <Binary size={18}/>, color: "from-purple-500/20" }
-  ],
-  expertise: [
-    { category: "Quantum Error Correction", skills: ["Surface Codes", "Lattice Surgery", "tQEC", "Decoders"], color: "text-blue-400", bg: "bg-blue-400/5" },
-    { category: "Quantum Compilers", skills: ["Mapping", "Photonic Synthesis", "LOCI IR"], color: "text-purple-400", bg: "bg-purple-400/5" },
-    { category: "HPC & Systems", skills: ["CUDA", "MPI/OpenMP", "GDSII Mask"], color: "text-emerald-400", bg: "bg-emerald-400/5" },
-  ],
   publications: [
     { title: "Crumbling Mountains: Pre-failure analysis", venue: "EGU 2025", year: "2025", type: "Presentation", links: { arxiv: "#" } },
     { title: "Efficient Silicon Nitride Waveguide Crossings", venue: "Optics Letters", year: "2023", type: "Journal", links: { github: "#", paper: "#" } },
@@ -114,7 +105,7 @@ export default function App() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
         
         {/* 1. Primary Identity Card */}
-        <BentoCard spotlight className="md:col-span-2 md:row-span-1 flex flex-col justify-between border-blue-500/20">
+        <BentoCard spotlight className="md:col-span-4 md:row-span-1 flex flex-col justify-between border-blue-500/20">
           <div>
             <div className="flex justify-between items-start mb-10">
               <img src={d.profile.avatar} className="w-24 h-24 rounded-3xl bg-zinc-800 p-1 border border-white/5" alt="Profile" />
@@ -142,40 +133,8 @@ export default function App() {
           </div>
         </BentoCard>
 
-        {/* 2. Stats Section */}
-        {d.stats.map((stat, i) => (
-          <BentoCard key={i} className="flex flex-col items-center justify-center text-center">
-            <div className={`mb-4 p-4 rounded-3xl bg-gradient-to-br ${stat.color} to-transparent border border-white/10 text-white shadow-lg shadow-black/20`}>
-              {stat.icon}
-            </div>
-            <div className="text-4xl font-bold text-white tabular-nums">{stat.value}</div>
-            <div className="text-[10px] uppercase tracking-[0.4em] font-black text-zinc-500 mt-2">{stat.label}</div>
-          </BentoCard>
-        ))}
 
-        {/* 3. Expertise Stack */}
-        <BentoCard className="md:col-span-2">
-          <div className="flex items-center gap-3 mb-8">
-            <Layers className="text-blue-500" size={20} />
-            <h2 className="text-xl font-bold text-white">System Stack</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {d.expertise.map((exp, i) => (
-              <div key={i} className="space-y-3">
-                <span className={`text-[10px] font-black uppercase tracking-widest ${exp.color}`}>{exp.category}</span>
-                <div className="flex flex-wrap gap-1">
-                  {exp.skills.map(s => (
-                    <span key={s} className="px-2 py-1 bg-white/5 rounded-md text-[10px] text-zinc-400 border border-white/10 hover:border-white/20 hover:text-white transition-colors whitespace-nowrap">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </BentoCard>
-
-        {/* 4. Publications */}
+        {/* 2. Publications */}
         <BentoCard className="md:col-span-4 border-white/10">
           <div className="flex justify-between items-center mb-8">
              <div className="flex items-center gap-3">
@@ -207,7 +166,7 @@ export default function App() {
           </div>
         </BentoCard>
 
-        {/* 5. Combined Education Row (Replacing Terminal/Resume) */}
+        {/* 3. Combined Education Row (Replacing Terminal/Resume) */}
         
         {/* Thesis Column */}
         <BentoCard className="md:col-span-2 md:row-span-1">
