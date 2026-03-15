@@ -21,14 +21,12 @@ interface EducationEntry {
   location: string;
   period: string;
   specialization: string;
-  details?: string;
 }
 
 interface Thesis {
   type: string;
   title: string;
   focus: string;
-  grade?: string;
 }
 
 interface BentoCardProps {
@@ -64,16 +62,14 @@ const SITE_DATA = {
       institution: "Technical University of Munich", 
       location: "Munich, GER", 
       period: "2023 — 2026",
-      specialization: "Quantum Computing and Machine Learning",
-      details: "Grade: 2.1 (interm.)"
+      specialization: "Quantum Computing and Machine Learning"
     },
     { 
       degree: "B.Sc. Informatics", 
       institution: "Technical University of Munich", 
       location: "Munich, GER", 
       period: "2018 — 2023",
-      specialization: "Applied Math, QC, and HPC",
-      details: "Grade: 2.7"
+      specialization: "Applied Math, QC, and HPC"
     },
     { 
       degree: "Erasmus+ Research", 
@@ -118,7 +114,7 @@ export default function App() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
         
         {/* 1. Primary Identity Card */}
-        <BentoCard spotlight className="md:col-span-2 md:row-span-2 flex flex-col justify-between border-blue-500/20">
+        <BentoCard spotlight className="md:col-span-2 md:row-span-1 flex flex-col justify-between border-blue-500/20">
           <div>
             <div className="flex justify-between items-start mb-10">
               <img src={d.profile.avatar} className="w-24 h-24 rounded-3xl bg-zinc-800 p-1 border border-white/5" alt="Profile" />
@@ -252,11 +248,7 @@ export default function App() {
                   <Globe size={10} /> {edu.institution}
                 </div>
                 <p className="text-[10px] text-zinc-500 leading-relaxed uppercase tracking-wider">{edu.specialization}</p>
-                {edu.details && (
-                  <span className="mt-2 inline-block text-[9px] font-mono text-zinc-600 bg-white/5 px-2 py-0.5 rounded border border-white/5 italic">
-                    {edu.details}
-                  </span>
-                )}
+                
               </div>
             ))}
           </div>
