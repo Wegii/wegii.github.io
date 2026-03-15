@@ -41,7 +41,7 @@ const SITE_DATA = {
     role: "Quantum Systems & QEC Researcher",
     location: "Munich, Germany",
     bio: "Researcher at TUM specializing in Fault-Tolerant Quantum Compilers and Silicon Nitride Photonics. Bridging the gap between abstract QEC protocols and physical chiplet architectures.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Peter&backgroundColor=0a0a0a",
+    avatar: "public/cover_image.jpeg",
   },
   publications: [
     { 
