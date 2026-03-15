@@ -38,9 +38,9 @@ interface BentoCardProps {
 const SITE_DATA = {
   profile: {
     name: "Peter Wegmann",
-    role: "Quantum Systems & QEC Researcher",
+    role: "PhD Student @ Technical University of Munich",
     location: "Munich, Germany",
-    bio: "Researcher at TUM specializing in Fault-Tolerant Quantum Compilers and Silicon Nitride Photonics. Bridging the gap between abstract QEC protocols and physical chiplet architectures.",
+    bio: "PhD at TUM specializing in Fault-Tolerant Quantum Compilers and bridging the gap between abstract QEC protocols and physical architectures.",
     avatar: "/cover_image.jpeg",
   },
   publications: [
