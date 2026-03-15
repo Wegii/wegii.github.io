@@ -12,7 +12,7 @@ interface Publication {
   venue: string;
   year: string;
   type: string;
-  links: { paper?: string; arxiv?: string; github?: string; };
+  links: { pdf?: string; arxiv?: string; github?: string; paper?: string; };
 }
 
 interface EducationEntry {
@@ -44,8 +44,27 @@ const SITE_DATA = {
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Peter&backgroundColor=0a0a0a",
   },
   publications: [
-    { title: "Crumbling Mountains: Pre-failure analysis", venue: "EGU 2025", year: "2025", type: "Presentation", links: { arxiv: "#" } },
-    { title: "Efficient Silicon Nitride Waveguide Crossings", venue: "Optics Letters", year: "2023", type: "Journal", links: { github: "#", paper: "#" } },
+    { 
+      title: "How ice apron loss and permafrost degradation promote the Platteikogel rock slide: A thermo-mechanical reconstruction", 
+      venue: "EGUsphere 2025", 
+      year: "2025", 
+      type: "Preprint", 
+      links: {pdf: "#", github: "https://github.com/Wegii/rock-temperature-cryogrid", paper: "https://egusphere.copernicus.org/preprints/2025/egusphere-2025-5985/"} 
+    },
+    { 
+      title: "Efficient Silicon Nitride Waveguide Crossings", 
+      venue: "Optics Letters", 
+      year: "2023", 
+      type: "Journal", 
+      links: {pdf: "#", paper: "https://opg.optica.org/ol/abstract.cfm?uri=ol-48-11-2981"} 
+    },
+    { 
+      title: "Silicon Nitride Waveguide Crossings for Photonic Quantum Computing based on an Adiabatic Coupler Design", 
+      venue: "CLEO", 
+      year: "2023", 
+      type: "Conference", 
+      links: {pdf: "#", paper: "https://opg.optica.org/abstract.cfm?uri=CLEO_SI-2023-JW2A.113"} 
+    },
   ],
   education: [
     { 
@@ -60,21 +79,21 @@ const SITE_DATA = {
       institution: "Technical University of Munich", 
       location: "Munich, GER", 
       period: "2018 — 2023",
-      specialization: "Applied Math, QC, and HPC"
+      specialization: "High Performance Computing and Quantum Computing"
     },
     { 
       degree: "Erasmus+ Research", 
       institution: "Universitetet i Bergen", 
       location: "Bergen, NOR", 
       period: "2021 — 2022",
-      specialization: "Earth Science: Ice Sheet & Climate Modeling"
+      specialization: "Climate Science: Ice Sheet & Climate Modeling"
     }
   ],
   theses: [
     { 
       type: "Master's Thesis", 
       title: "Scalable Fault-Tolerant Quantum Compiler for Chiplet Architectures", 
-      focus: "QEC, Lattice Surgery, Architecture" 
+      focus: "Quantum Error Correction, Lattice Surgery, System Design" 
     },
     { 
       type: "Bachelor's Thesis", 
@@ -100,6 +119,16 @@ const BentoCard = ({ children, className = "", spotlight = false }: BentoCardPro
 export default function App() {
   const d = SITE_DATA;
 
+   const getLinkIcon = (key: string) => {
+    switch (key) {
+      case 'arxiv': return <ExternalLink size={14} />;
+      case 'github': return <Github size={14} />;
+      case 'website': return <Globe size={14} />;
+      case 'paper': return <FileText size={14} />;
+      default: return <ExternalLink size={14} />;
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#050505] text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
@@ -123,7 +152,7 @@ export default function App() {
             <div className="flex items-center gap-2 text-blue-400 font-mono text-sm mb-6 uppercase tracking-widest">
               <Zap size={14} fill="currentColor" /> {d.profile.role}
             </div>
-            <p className="text-zinc-400 text-lg leading-relaxed max-w-md">
+            <p className="text-zinc-400 text-lg leading-relaxed max-w-4xl">
               {d.profile.bio}
             </p>
           </div>
@@ -141,7 +170,7 @@ export default function App() {
                 <BookOpen className="text-purple-500" size={20} />
                 <h2 className="text-xl font-bold text-white">Selected Publications</h2>
              </div>
-             <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest hidden md:block">Research // Archivum</div>
+             <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest hidden md:block">Selected Works</div>
           </div>
           <div className="space-y-4">
             {d.publications.map((pub, i) => (
@@ -155,9 +184,11 @@ export default function App() {
                   <h3 className="text-white text-lg font-semibold group-hover/item:text-purple-300 transition-colors">{pub.title}</h3>
                 </div>
                 <div className="flex gap-2 mt-4 md:mt-0">
-                  {Object.keys(pub.links).map(link => (
-                    <div key={link} className="p-2.5 bg-black/40 rounded-xl text-zinc-500 hover:text-white hover:border-white/20 transition-all cursor-pointer border border-white/10 group-hover/item:border-white/20">
-                      <ExternalLink size={14} />
+                  {/*.map(link => (*/}
+                  {Object.keys(pub.links).map(([key, url]) => ( 
+                    <div key={url} className="p-2.5 bg-black/40 rounded-xl text-zinc-500 hover:text-white hover:border-white/20 transition-all cursor-pointer border border-white/10 group-hover/item:border-white/20">
+                      {/*<ExternalLink size={14} />*/}
+                      {getLinkIcon(key)}
                     </div>
                   ))}
                 </div>
