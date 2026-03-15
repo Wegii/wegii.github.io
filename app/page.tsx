@@ -3,27 +3,16 @@ import React from 'react';
 import { 
   Github, Linkedin, Mail, Terminal, MapPin, Cpu, BookOpen, 
   Mountain, Music, FileText, Code, GraduationCap, ScrollText,
-  Binary, Layers
+  Binary, Layers, ExternalLink, Zap
 } from 'lucide-react';
 
-// Interfaces for TypeScript type safety
+// --- Data Types & Mock Data ---
 interface Publication {
   title: string;
   venue: string;
   year: string;
   type: string;
-  links: {
-    paper?: string;
-    arxiv?: string;
-    github?: string;
-  };
-}
-
-interface Study {
-  degree: string;
-  institution: string;
-  specialization: string;
-  period: string;
+  links: { paper?: string; arxiv?: string; github?: string; };
 }
 
 interface Thesis {
@@ -33,298 +22,187 @@ interface Thesis {
   tag: string;
 }
 
-interface Expertise {
-  category: string;
-  skills: string[];
-  color: string;
-}
-
 const SITE_DATA = {
   profile: {
     name: "Peter Wegmann",
     role: "Quantum Systems & QEC Researcher",
     location: "Munich, Germany",
     bio: "Researcher at TUM specializing in Fault-Tolerant Quantum Compilers and Silicon Nitride Photonics. Bridging the gap between abstract QEC protocols and physical chiplet architectures.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Peter&backgroundColor=070707",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Peter&backgroundColor=0a0a0a",
   },
   stats: [
-    { label: "Publications", value: "4", icon: <FileText size={16}/> },
-    { label: "Total Projects", value: "24+", icon: <Binary size={16}/> }
+    { label: "Publications", value: "4", icon: <FileText size={18}/>, color: "from-blue-500/20" },
+    { label: "Projects", value: "24+", icon: <Binary size={18}/>, color: "from-purple-500/20" }
   ],
-  education: {
-    theses: [
-      {
-        degree: "Master's Thesis",
-        title: "Scalable Fault-Tolerant Quantum Compiler for Chiplet Architectures",
-        focus: "QEC, Lattice Surgery, Chiplet Interconnects",
-        tag: "Active"
-      },
-      {
-        degree: "Bachelor's Thesis",
-        title: "Hardware Aware Compiler for Photonic Quantum Computing",
-        focus: "Photonic Circuits, Waveguide Crossings, Mapping",
-        tag: "Archive"
-      }
-    ] as Thesis[],
-    studies: [
-      {
-        degree: "M.Sc. Informatics",
-        institution: "Technical University of Munich",
-        specialization: "Quantum Computing & ML",
-        period: "2023 — Present"
-      },
-      {
-        degree: "B.Sc. Informatics",
-        institution: "Technical University of Munich",
-        specialization: "Applied Math, QC & HPC",
-        period: "2019 — 2023"
-      }
-    ] as Study[]
-  },
   expertise: [
-    {
-      category: "Quantum Error Correction",
-      skills: ["Surface Codes", "Lattice Surgery", "tQEC", "Decoders"],
-      color: "text-blue-400"
-    },
-    {
-      category: "Quantum Compilers",
-      skills: ["Logical-to-Physical Mapping", "Photonic Synthesis", "LOCI IR"],
-      color: "text-purple-400"
-    },
-    {
-      category: "HPC & Systems",
-      skills: ["CUDA", "MPI/OpenMP", "GDSII Mask Gen"],
-      color: "text-emerald-400"
-    },
-    {
-      category: "Frameworks",
-      skills: ["Stim", "PyMatching", "Qiskit", "JAX/Optax"],
-      color: "text-orange-400"
-    }
-  ] as Expertise[],
+    { category: "Quantum Error Correction", skills: ["Surface Codes", "Lattice Surgery", "tQEC", "Decoders"], color: "text-blue-400", bg: "bg-blue-400/5" },
+    { category: "Quantum Compilers", skills: ["Mapping", "Photonic Synthesis", "LOCI IR"], color: "text-purple-400", bg: "bg-purple-400/5" },
+    { category: "HPC & Systems", skills: ["CUDA", "MPI/OpenMP", "GDSII Mask"], color: "text-emerald-400", bg: "bg-emerald-400/5" },
+  ],
   publications: [
-    { 
-      title: "Crumbling Mountains: Pre-failure analysis of the 2024 Permafrost Rock Slide", 
-      venue: "EGU General Assembly 2025", 
-      year: "2025",
-      type: "Presentation",
-      links: { paper: "#", arxiv: "#" }
-    },
-    { 
-      title: "Efficient adiabatic-coupler-based silicon nitride waveguide crossings for photonic quantum computing", 
-      venue: "Optics Letters", 
-      year: "2023",
-      type: "Journal",
-      links: { paper: "#", github: "https://github.com/wegil/TQC" }
-    },
-    { 
-      title: "Silicon Nitride Waveguide Crossings for Photonic Quantum Computing based on an Adiabatic Coupler Design", 
-      venue: "CLEO", 
-      year: "2023",
-      type: "Conference",
-      links: { paper: "#" }
-    },
-    { 
-      title: "On-chip Quantum Optics", 
-      venue: "OST-MCOST", 
-      year: "2020",
-      type: "Poster",
-      links: { paper: "#" }
-    }
-  ] as Publication[],
-  socials: [
-    { icon: <Github size={20} />, link: "https://github.com/wegil", label: "GitHub" },
-    { icon: <Linkedin size={20} />, link: "https://linkedin.com/in/peterwegmann", label: "LinkedIn" },
-    { icon: <Mail size={20} />, link: "mailto:peterwegii@gmail.com", label: "Email" }
+    { title: "Crumbling Mountains: Pre-failure analysis", venue: "EGU 2025", year: "2025", type: "Presentation", links: { arxiv: "#" } },
+    { title: "Efficient Silicon Nitride Waveguide Crossings", venue: "Optics Letters", year: "2023", type: "Journal", links: { github: "#", paper: "#" } },
+  ],
+  theses: [
+    { degree: "Master's", title: "Scalable Fault-Tolerant Compiler", focus: "QEC, Lattice Surgery", tag: "Active" },
+    { degree: "Bachelor's", title: "Photonic Quantum Compiler", focus: "Hardware Aware Mapping", tag: "Archive" }
   ]
 };
 
-export default function Page() {
-  const data = SITE_DATA;
+// --- Sub-Components for the Bento Grid ---
+
+const BentoCard = ({ children, className = "", spotlight = false }) => (
+  <div className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-900/40 backdrop-blur-md transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/60 group ${className}`}>
+    {spotlight && (
+      <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-600/10 blur-[80px] transition-opacity duration-500 group-hover:opacity-100 opacity-50" />
+    )}
+    <div className="relative z-10 h-full p-8 md:p-10">
+      {children}
+    </div>
+  </div>
+);
+
+export default function App() {
+  const d = SITE_DATA;
 
   return (
-    <main className="min-h-screen bg-[#070707] text-zinc-100 p-4 md:p-12 font-sans selection:bg-blue-500/30">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+    <main className="min-h-screen bg-[#050505] text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
+      {/* BENTO GRID CONFIGURATION:
+         - 4 Column layout for desktop (md:grid-cols-4)
+         - Auto rows with 1.5rem gap
+      */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
         
-        {/* Profile Header Block */}
-        <section className="md:col-span-2 md:row-span-2 bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 flex flex-col justify-between group hover:border-blue-500/40 transition-all duration-700">
+        {/* 1. Primary Identity Card (Large 2x2 Span) */}
+        <BentoCard spotlight className="md:col-span-2 md:row-span-2 flex flex-col justify-between border-blue-500/20">
           <div>
-            <div className="flex justify-between items-start mb-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <img 
-                  src={data.profile.avatar} 
-                  alt={data.profile.name} 
-                  className="w-24 h-24 rounded-3xl bg-zinc-800 p-2 border border-zinc-700 relative z-10"
-                />
-                <div className="absolute -bottom-2 -right-2 bg-blue-600 p-2 rounded-xl border-4 border-[#070707] z-20">
-                  <Cpu size={16} className="text-white" />
-                </div>
-              </div>
+            <div className="flex justify-between items-start mb-10">
+              <img src={d.profile.avatar} className="w-24 h-24 rounded-3xl bg-zinc-800 p-1 border border-white/5" alt="Profile" />
               <div className="flex gap-2">
-                {data.socials.map((social, i) => (
-                  <a key={i} href={social.link} aria-label={social.label} className="p-3 bg-zinc-800/50 rounded-2xl hover:bg-white hover:text-black transition-all duration-300 transform hover:-translate-y-1">
-                    {social.icon}
-                  </a>
-                ))}
+                 {['Github', 'Linkedin', 'Mail'].map(s => (
+                   <div key={s} className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
+                     {s === 'Github' ? <Github size={20}/> : s === 'Linkedin' ? <Linkedin size={20}/> : <Mail size={20}/>}
+                   </div>
+                 ))}
               </div>
             </div>
-            <h1 className="text-5xl font-bold mb-3 tracking-tighter bg-gradient-to-br from-white via-white to-zinc-600 bg-clip-text text-transparent">
-              {data.profile.name}
+            <h1 className="text-5xl font-bold tracking-tighter text-white mb-2 leading-none">
+              {d.profile.name}
             </h1>
-            <p className="text-blue-400 text-xl mb-6 font-medium tracking-tight flex items-center gap-2">
-              <Binary size={20} className="opacity-70" />
-              {data.profile.role}
-            </p>
-            <p className="text-zinc-400 leading-relaxed text-lg max-w-md">
-              {data.profile.bio}
+            <div className="flex items-center gap-2 text-blue-400 font-mono text-sm mb-6 uppercase tracking-widest">
+              <Zap size={14} fill="currentColor" /> {d.profile.role}
+            </div>
+            <p className="text-zinc-400 text-lg leading-relaxed max-w-md">
+              {d.profile.bio}
             </p>
           </div>
-          
-          <div className="mt-10 flex items-center justify-between border-t border-zinc-800/50 pt-6">
-            <div className="flex items-center text-zinc-500 text-sm gap-2">
-              <MapPin size={16} className="text-blue-500" />
-              {data.profile.location}
-            </div>
-            <div className="flex gap-4">
-               <span title="Mountain Rescue" className="text-zinc-500 hover:text-white transition-colors cursor-help"><Mountain size={20}/></span>
-               <span title="Musician" className="text-zinc-500 hover:text-white transition-colors cursor-help"><Music size={20}/></span>
-            </div>
+          <div className="pt-8 border-t border-white/5 flex items-center justify-between text-zinc-500 text-xs font-mono">
+            <div className="flex items-center gap-2"><MapPin size={14}/> {d.profile.location}</div>
+            <div className="flex gap-4"><Mountain size={18}/> <Music size={18}/></div>
           </div>
-        </section>
+        </BentoCard>
 
-        {/* Stats Grid */}
-        {data.stats.map((stat, i) => (
-          <div key={i} className="bg-zinc-900/40 border border-zinc-800/50 rounded-[2rem] p-8 flex flex-col items-center justify-center hover:bg-zinc-800/40 transition-all group relative overflow-hidden">
-            <div className="absolute -right-2 -bottom-2 text-white/5 transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
-               {/* Fixed the type error by adding a more specific props cast */}
-               {React.cloneElement(stat.icon as React.ReactElement<any>, { size: 80 })}
+        {/* 2. Stats Section (Individual Small Cards) */}
+        {d.stats.map((stat, i) => (
+          <BentoCard key={i} className="flex flex-col items-center justify-center text-center">
+            <div className={`mb-4 p-4 rounded-3xl bg-gradient-to-br ${stat.color} to-transparent border border-white/5 text-white`}>
+              {stat.icon}
             </div>
-            <span className="text-5xl font-bold text-white relative z-10 group-hover:scale-110 transition-transform duration-500">{stat.value}</span>
-            <span className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-3 font-black relative z-10">{stat.label}</span>
-          </div>
+            <div className="text-4xl font-bold text-white tabular-nums">{stat.value}</div>
+            <div className="text-[10px] uppercase tracking-[0.4em] font-black text-zinc-500 mt-2">{stat.label}</div>
+          </BentoCard>
         ))}
 
-        {/* Technical Domain Matrix */}
-        <section className="md:col-span-2 bg-zinc-900/40 border border-zinc-800/50 rounded-[2.5rem] p-10 overflow-hidden relative group hover:border-zinc-700 transition-colors">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="p-2 bg-blue-500/10 rounded-lg text-blue-500">
-              <Layers size={20} />
-            </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white">System Architecture Stack</h2>
+        {/* 3. Expertise Stack (Wide Card 2x1) */}
+        <BentoCard className="md:col-span-2">
+          <div className="flex items-center gap-3 mb-8">
+            <Layers className="text-blue-500" size={20} />
+            <h2 className="text-xl font-bold text-white">System Stack</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 text-white">
-            {data.expertise.map((block, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {d.expertise.map((exp, i) => (
               <div key={i} className="space-y-3">
-                <h3 className={`text-[10px] uppercase font-black tracking-widest ${block.color}`}>{block.category}</h3>
-                <div className="flex flex-wrap gap-1.5">
-                  {block.skills.map(skill => (
-                    <span key={skill} className="text-[11px] font-medium text-zinc-400 bg-zinc-800/40 px-2 py-1 rounded-md border border-zinc-700/30 hover:border-zinc-500 hover:text-zinc-100 transition-colors">
-                      {skill}
+                <span className={`text-[10px] font-black uppercase tracking-widest ${exp.color}`}>{exp.category}</span>
+                <div className="flex flex-wrap gap-1">
+                  {exp.skills.map(s => (
+                    <span key={s} className="px-2 py-1 bg-white/5 rounded-md text-[10px] text-zinc-400 border border-white/5 whitespace-nowrap">
+                      {s}
                     </span>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-        </section>
+        </BentoCard>
 
-        {/* Research Publication List */}
-        <section className="md:col-span-4 bg-zinc-900/40 border border-zinc-800/50 rounded-[2.5rem] p-10 group hover:border-zinc-700 transition-colors">
-          <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-purple-500/10 rounded-lg text-purple-500">
-                <BookOpen size={20} />
-              </div>
-              <h2 className="text-2xl font-bold tracking-tight text-white">Publications & Dissemination</h2>
-            </div>
-            <span className="hidden md:block text-[10px] font-bold text-zinc-600 tracking-widest uppercase italic">Select any item to view repository</span>
+        {/* 4. Publications (Long Horizontal Span 4x1) */}
+        <BentoCard className="md:col-span-4">
+          <div className="flex justify-between items-center mb-8">
+             <div className="flex items-center gap-3">
+                <BookOpen className="text-purple-500" size={20} />
+                <h2 className="text-xl font-bold text-white">Selected Publications</h2>
+             </div>
+             <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest hidden md:block">Research // Archivum</div>
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            {data.publications.map((pub, i) => (
-              <div key={i} className="group/pub flex flex-col md:flex-row md:items-center justify-between bg-zinc-800/20 border border-zinc-800/50 p-6 rounded-2xl hover:bg-zinc-800/40 hover:border-zinc-600/50 transition-all duration-300">
-                <div className="flex-1">
-                  <div className="flex items-center gap-4 mb-3">
-                    <span className="px-2 py-1 bg-zinc-800 rounded text-[9px] font-black text-zinc-500 uppercase tracking-tighter">{pub.type}</span>
-                    <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">{pub.venue}</span>
-                    <span className="text-[10px] font-medium text-zinc-600">{pub.year}</span>
+          <div className="space-y-4">
+            {d.publications.map((pub, i) => (
+              <div key={i} className="group/item flex flex-col md:flex-row md:items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all">
+                <div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <span className="text-[9px] font-black bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded uppercase tracking-tighter">{pub.type}</span>
+                    <span className="text-xs font-bold text-purple-400 font-mono">{pub.venue}</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-zinc-100 group-hover/pub:text-purple-400 transition-colors leading-snug">
-                    {pub.title}
-                  </h3>
+                  <h3 className="text-white font-semibold group-hover/item:text-blue-400 transition-colors">{pub.title}</h3>
                 </div>
                 <div className="flex gap-2 mt-4 md:mt-0">
-                  {pub.links.arxiv && <a href={pub.links.arxiv} className="p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white hover:bg-orange-600 transition-all text-xs font-bold uppercase tracking-tighter">arXiv</a>}
-                  {pub.links.paper && <a href={pub.links.paper} className="p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white hover:bg-zinc-700 transition-all"><FileText size={16}/></a>}
-                  {pub.links.github && <a href={pub.links.github} className="p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white hover:bg-zinc-700 transition-all"><Code size={16}/></a>}
+                  {Object.keys(pub.links).map(link => (
+                    <div key={link} className="p-2 bg-black/40 rounded-lg text-zinc-500 hover:text-white transition-colors cursor-pointer border border-white/5">
+                      <ExternalLink size={14} />
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
           </div>
-        </section>
+        </BentoCard>
 
-        {/* Academic Deep Dive */}
-        <section className="md:col-span-2 bg-zinc-900/40 border border-zinc-800/50 rounded-[2.5rem] p-10 flex flex-col justify-between group hover:border-emerald-500/30 transition-colors">
-          <div>
-            <div className="flex items-center gap-3 mb-10">
-              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-500">
-                <ScrollText size={20} />
-              </div>
-              <h2 className="text-2xl font-bold tracking-tight text-white">Theses & Research</h2>
-            </div>
-            <div className="space-y-10">
-              {data.education.theses.map((thesis, i) => (
-                <div key={i} className="relative pl-6 border-l-2 border-zinc-800 group/thesis">
-                  <div className="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-zinc-800 group-hover/thesis:bg-emerald-500 group-hover/thesis:scale-125 transition-all" />
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">{thesis.degree}</span>
-                    <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${thesis.tag === 'Active' ? 'border-emerald-500/50 text-emerald-400' : 'border-zinc-700 text-zinc-600'}`}>{thesis.tag}</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-zinc-100 group-hover/thesis:text-emerald-400 transition-colors mb-2 leading-tight">{thesis.title}</h3>
-                  <p className="text-sm text-zinc-500 italic leading-snug">{thesis.focus}</p>
-                </div>
-              ))}
-            </div>
+        {/* 5. Theses (Tall Vertical Span 1x2) */}
+        <BentoCard className="md:row-span-1 md:col-span-2">
+          <div className="flex items-center gap-3 mb-8">
+            <ScrollText className="text-emerald-500" size={20} />
+            <h2 className="text-xl font-bold text-white">Academic Deep Dive</h2>
           </div>
-        </section>
-
-        {/* Institutional Background */}
-        <section className="md:col-span-2 bg-zinc-900/40 border border-zinc-800/50 rounded-[2.5rem] p-10 group hover:border-blue-500/30 transition-colors">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="p-2 bg-blue-500/10 rounded-lg text-blue-500">
-              <GraduationCap size={20} />
-            </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white">Academic History</h2>
-          </div>
-          <div className="space-y-8">
-            {data.education.studies.map((study, i) => (
-              <div key={i} className="group/study">
-                <div className="flex justify-between items-start mb-2">
-                   <h3 className="text-lg font-bold text-zinc-100 group-hover/study:text-blue-400 transition-colors">{study.degree}</h3>
-                   <span className="text-[10px] font-bold text-zinc-600">{study.period}</span>
-                </div>
-                <div className="flex items-center gap-2 text-zinc-400 mb-2">
-                  <span className="text-xs font-medium uppercase tracking-wider">{study.institution}</span>
-                </div>
-                <div className="flex items-start gap-2 bg-zinc-800/20 p-3 rounded-xl border border-zinc-800/50">
-                   <Terminal size={14} className="mt-0.5 text-blue-500 opacity-50" />
-                   <p className="text-xs text-zinc-500 leading-normal">{study.specialization}</p>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {d.theses.map((t, i) => (
+              <div key={i} className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded mb-2 inline-block ${t.tag === 'Active' ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'}`}>{t.tag}</span>
+                <h4 className="text-white font-bold leading-tight mb-2">{t.title}</h4>
+                <p className="text-xs text-zinc-500 italic">{t.focus}</p>
               </div>
             ))}
           </div>
-        </section>
+        </BentoCard>
+
+        {/* 6. Contact/CTA (Small square) */}
+        <BentoCard className="flex flex-col justify-center items-center bg-blue-600/10 border-blue-500/30 group/cta cursor-pointer">
+           <Terminal className="text-blue-400 mb-4 group-hover/cta:scale-110 transition-transform" size={32} />
+           <span className="text-white font-bold text-sm">Open Terminal</span>
+           <span className="text-[9px] text-blue-400/60 font-mono mt-1">v2.0_stable</span>
+        </BentoCard>
+
+        <BentoCard className="flex flex-col justify-center items-center">
+           <GraduationCap className="text-zinc-500 mb-4" size={32} />
+           <span className="text-white font-bold text-sm">Resume.pdf</span>
+           <FileText className="text-zinc-700 mt-2" size={16} />
+        </BentoCard>
 
       </div>
-      
-      {/* Dynamic Terminal Footer */}
-      <footer className="mt-20 py-10 flex flex-col items-center gap-4">
-        <div className="flex items-center gap-3 px-5 py-2.5 bg-zinc-900/50 border border-zinc-800/80 rounded-full text-[10px] font-bold text-zinc-500 tracking-[0.3em] uppercase">
-          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-          Quantum Hardware-Software Interface • {new Date().getFullYear()}
+
+      <footer className="mt-20 text-center space-y-4">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-white/5 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+           <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" /> 
+           Last Sync: {new Date().toLocaleDateString()}
         </div>
-        <p className="text-zinc-700 text-[10px] tracking-tight">Handcrafted with Next.js & Tailwind • Built for Fault-Tolerance</p>
       </footer>
     </main>
   );
