@@ -45,6 +45,13 @@ const SITE_DATA = {
   },
   publications: [
     { 
+      title: "Chipmunq: A Fault-Tolerant Compiler for Chiplet Quantum Architectures ", 
+      venue: "Arxiv", 
+      year: "2026", 
+      type: "Preprint", 
+      links: {pdf: "#", github: "https://github.com/Wegii/qecc_mapping", paper: "https://arxiv.org/abs/2603.16389"} 
+    },
+    { 
       title: "How ice apron loss and permafrost degradation promote the Platteikogel rock slide: A thermo-mechanical reconstruction", 
       venue: "EGUsphere 2025", 
       year: "2025", 
