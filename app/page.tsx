@@ -138,7 +138,7 @@ export default function App() {
 
   return (
     <main className="min-h-screen bg-[#050505] text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-auto">
         
         {/* 1. Primary Identity Card */}
         <BentoCard spotlight className="md:col-span-4 md:row-span-1 flex flex-col justify-between border-blue-500/20">
@@ -190,7 +190,7 @@ export default function App() {
           <div className="flex justify-between items-center mb-8">
              <div className="flex items-center gap-3">
                 <BookOpen className="text-purple-500" size={20} />
-                <h2 className="text-xl font-bold text-white">Selected Publications</h2>
+                <h2 className="text-xl font-bold text-white">Publications</h2>
              </div>
              <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest hidden md:block">Selected Works</div>
           </div>
