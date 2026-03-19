@@ -1,9 +1,9 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Github, Linkedin, Mail, MapPin, BookOpen, 
   Mountain, Music, FileText, GraduationCap, ScrollText,
-  Binary, Layers, ExternalLink, Zap, Milestone, Globe
+  Binary, Layers, ExternalLink, Zap, Milestone, Globe, Sun, Moon
 } from 'lucide-react';
 
 // --- Interfaces for TypeScript type safety ---
@@ -40,7 +40,7 @@ const SITE_DATA = {
     name: "Peter Wegmann",
     role: "PhD Student @ Technical University of Munich",
     location: "Munich, Germany",
-    bio: "PhD at TUM specializing in Fault-Tolerant Quantum Compilers and bridging the gap between abstract QEC protocols and physical architectures.",
+    bio: "I am a PhD student in the <a href=\"https://dse.in.tum.de/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"text-blue-400 underline\"><u>Systems Research Group</u></a> at the <a href=\"https://www.cit.tum.de/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"underline\"><u>Technical University of Munich</u></a>, supervised by <a href=\"https://dse.in.tum.de/bhatotia/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"underline\"><u>Prof. Pramod Bhatotia</u></a>. I am interested in compilers, quantum error correction, and next-generation quantum architectures.",
     avatar: "/cover_image.jpeg",
   },
   publications: [
@@ -126,6 +126,20 @@ const BentoCard = ({ children, className = "", spotlight = false }: BentoCardPro
 export default function App() {
   const d = SITE_DATA;
 
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+
    const getLinkIcon = (key: string) => {
     switch (key) {
       case 'arxiv': return <ExternalLink size={14} />;
@@ -137,14 +151,24 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
+    <main className="min-h-screen bg-white dark:bg-[#050505] text-black dark:text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-auto">
         
         {/* 1. Primary Identity Card */}
-        <BentoCard spotlight className="md:col-span-4 md:row-span-1 flex flex-col justify-between border-blue-500/20">
+        <BentoCard spotlight className="md:col-span-4 md:row-span-1 flex flex-col justify-between border-blue-500/20 dark:border-blue-500/20">
           <div>
-            <div className="flex justify-between items-start mb-10">
-              <img src={d.profile.avatar} className="w-24 h-24 rounded-3xl bg-zinc-800 p-1 border border-white/5" alt="Profile" />
+            <div className="flex flex-col md:flex-row md:justify-between items-start mb-10">
+              <div className="flex items-center gap-6">
+                <img src={d.profile.avatar} className="w-24 h-24 rounded-3xl bg-gray-200 dark:bg-zinc-800 p-1 border border-gray-300 dark:border-white/5" alt="Profile" />
+                <div>
+                  <h1 className="text-5xl font-bold tracking-tighter text-black dark:text-white mb-2 leading-none">
+                    {d.profile.name}
+                  </h1>
+                  <div className="flex items-center gap-2 text-blue-400 font-mono text-sm uppercase tracking-widest">
+                    <Zap size={14} fill="currentColor" /> {d.profile.role}
+                  </div>
+                </div>
+              </div>
               <div className="flex gap-2">
                 {/*
                  {['Github', 'Linkedin', 'Mail'].map(s => (
@@ -154,31 +178,28 @@ export default function App() {
                  ))}
                 */}
 
-                  <a href="https://github.com/wegii" target="_blank" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
+                  <a href="https://github.com/wegii" target="_blank" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
                    <Github size={20}/>
                  </a>
-                 <a href="https://linkedin.com/in/wegii" target="_blank" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
+                 <a href="https://linkedin.com/in/wegii" target="_blank" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
                    <Linkedin size={20}/>
                  </a>
-                 <a href="https://scholar.google.com/citations?hl=en&user=aPmT8iQAAAAJ" target="_blank" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer" title="Google Scholar">
+                 <a href="https://scholar.google.com/citations?hl=en&user=aPmT8iQAAAAJ" target="_blank" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer" title="Google Scholar">
                    <GraduationCap size={20}/>
                  </a>
-                 <a href="mailto:wegmannp@in.tum.de" className="p-3 bg-white/5 rounded-2xl hover:bg-white hover:text-black transition-all cursor-pointer">
+                 <a href="mailto:wegmannp@in.tum.de" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
                    <Mail size={20}/>
                  </a>
+                 {/*<button onClick={toggleTheme} className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
+                   {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                 </button>*/}
               </div>
             </div>
-            <h1 className="text-5xl font-bold tracking-tighter text-white mb-2 leading-none">
-              {d.profile.name}
-            </h1>
-            <div className="flex items-center gap-2 text-blue-400 font-mono text-sm mb-6 uppercase tracking-widest">
-              <Zap size={14} fill="currentColor" /> {d.profile.role}
-            </div>
-            <p className="text-zinc-400 text-lg leading-relaxed max-w-4xl">
-              {d.profile.bio}
+
+            <p className="text-gray-600 dark:text-zinc-400 text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: d.profile.bio }}>
             </p>
           </div>
-          <div className="pt-8 border-t border-white/5 flex items-center justify-between text-zinc-500 text-xs font-mono">
+          <div className="pt-8 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-gray-500 dark:text-zinc-500 text-xs font-mono">
             <div className="flex items-center gap-2"><MapPin size={14}/> {d.profile.location}</div>
             <div className="flex gap-4"><Mountain size={18}/> <Music size={18}/></div>
           </div>
@@ -186,24 +207,24 @@ export default function App() {
 
 
         {/* 2. Publications */}
-        <BentoCard className="md:col-span-4 border-white/10">
+        <BentoCard className="md:col-span-4 border-gray-200 dark:border-white/10">
           <div className="flex justify-between items-center mb-8">
              <div className="flex items-center gap-3">
                 <BookOpen className="text-purple-500" size={20} />
-                <h2 className="text-xl font-bold text-white">Publications</h2>
+                <h2 className="text-xl font-bold text-black dark:text-white">Publications</h2>
              </div>
              <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest hidden md:block">Selected Works</div>
           </div>
           <div className="space-y-4">
             {d.publications.map((pub, i) => (
-              <div key={i} className="group/item flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-purple-500/40 hover:bg-white/[0.06] transition-all duration-300">
+                  <div key={i} className="group/item flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 hover:border-purple-500/40 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-all duration-300">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[9px] font-black bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded uppercase tracking-tighter border border-white/5">{pub.type}</span>
-                    <span className="text-xs font-bold text-purple-400 font-mono tracking-tight">{pub.venue}</span>
-                    <span className="text-[10px] text-zinc-600 font-mono">{pub.year}</span>
+                    <span className="text-[9px] font-black bg-gray-300 dark:bg-zinc-800 text-gray-700 dark:text-zinc-400 px-2 py-0.5 rounded uppercase tracking-tighter border border-gray-400 dark:border-white/5">{pub.type}</span>
+                    <span className="text-xs font-bold text-purple-600 dark:text-purple-400 font-mono tracking-tight">{pub.venue}</span>
+                    <span className="text-[10px] text-gray-600 dark:text-zinc-600 font-mono">{pub.year}</span>
                   </div>
-                  <h3 className="text-white text-lg font-semibold group-hover/item:text-purple-300 transition-colors">{pub.title}</h3>
+                  <h3 className="text-black dark:text-white text-lg font-semibold group-hover/item:text-purple-300 transition-colors">{pub.title}</h3>
                 </div>
                 <div className="flex gap-2 mt-4 md:mt-0">
                   {/*
@@ -220,7 +241,7 @@ export default function App() {
                         href={url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 p-2.5 bg-black/40 rounded-xl text-zinc-500 hover:text-white hover:border-white/40 transition-all border border-white/10 text-[10px] font-mono uppercase tracking-tighter group-hover/item:border-white/20"
+                        className="flex items-center gap-2 p-2.5 bg-gray-200 dark:bg-black/40 rounded-xl text-gray-700 dark:text-zinc-500 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-white/40 transition-all border border-gray-300 dark:border-white/10 text-[10px] font-mono uppercase tracking-tighter group-hover/item:border-gray-400 dark:border-white/20"
                       >
                         {getLinkIcon(key)}
                         <span>{key}</span>
@@ -239,15 +260,15 @@ export default function App() {
         <BentoCard className="md:col-span-2 md:row-span-1">
           <div className="flex items-center gap-3 mb-8">
             <ScrollText className="text-emerald-500" size={20} />
-            <h2 className="text-xl font-bold text-white">Thesis Research</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white">Thesis Research</h2>
           </div>
           <div className="space-y-4">
             {d.theses.map((t, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/20 hover:border-emerald-500/40 transition-colors group/thesis">
+              <div key={i} className="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/20 hover:border-emerald-300 dark:hover:border-emerald-500/40 transition-colors group/thesis">
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded mb-3 inline-block bg-emerald-500 text-black shadow-lg shadow-emerald-500/20">
                   {t.type}
                 </span>
-                <h4 className="text-white font-bold leading-tight mb-2 group-hover/thesis:text-emerald-400 transition-colors">{t.title}</h4>
+                <h4 className="text-black dark:text-white font-bold leading-tight mb-2 group-hover/thesis:text-emerald-400 transition-colors">{t.title}</h4>
                 <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-mono uppercase tracking-tighter">
                   <Milestone size={12} /> {t.focus}
                 </div>
@@ -260,20 +281,20 @@ export default function App() {
         <BentoCard className="md:col-span-2">
           <div className="flex items-center gap-3 mb-8">
             <GraduationCap className="text-blue-500" size={20} />
-            <h2 className="text-xl font-bold text-white">Academic Journey</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white">Academic Journey</h2>
           </div>
           <div className="space-y-4">
             {d.education.map((edu, i) => (
-              <div key={i} className="relative pl-6 border-l border-white/10 group/edu">
+              <div key={i} className="relative pl-6 border-l border-gray-200 dark:border-white/10 group/edu">
                 <div className="absolute left-[-5px] top-1 w-2 h-2 rounded-full bg-blue-500/40 group-hover/edu:bg-blue-500 transition-colors" />
                 <div className="flex justify-between items-start mb-1">
-                  <h4 className="text-white font-bold text-sm">{edu.degree}</h4>
+                  <h4 className="text-black dark:text-white font-bold text-sm">{edu.degree}</h4>
                   <span className="text-[10px] font-mono text-zinc-600">{edu.period}</span>
                 </div>
                 <div className="text-xs text-blue-400 mb-1 flex items-center gap-1">
                   <Globe size={10} /> {edu.institution}
                 </div>
-                <p className="text-[10px] text-zinc-500 leading-relaxed uppercase tracking-wider">{edu.specialization}</p>
+<p className="text-gray-500 dark:text-zinc-500 leading-relaxed uppercase tracking-wider">{edu.specialization}</p>
                 
               </div>
             ))}
@@ -283,7 +304,7 @@ export default function App() {
       </div>
 
       <footer className="mt-20 text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-white/10 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-widest shadow-xl">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-full text-[10px] font-bold text-gray-700 dark:text-zinc-500 uppercase tracking-widest shadow-xl">
            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" /> 
            Last Sync: {new Date().toLocaleDateString()}
         </div>
