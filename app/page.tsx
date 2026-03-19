@@ -151,7 +151,7 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen bg-white dark:bg-[#050505] text-black dark:text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
+    <main className="min-h-screen bg-[#050505] md:bg-white dark:bg-[#050505] text-zinc-200 md:text-black dark:text-zinc-200 p-6 md:p-12 font-sans selection:bg-blue-500/30">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-auto">
         
         {/* 1. Primary Identity Card */}
@@ -178,16 +178,16 @@ export default function App() {
                  ))}
                 */}
 
-                  <a href="https://github.com/wegii" target="_blank" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
+                  <a href="https://github.com/wegii" target="_blank" className="p-3 bg-white/5 md:bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-white md:hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
                    <Github size={20}/>
                  </a>
-                 <a href="https://linkedin.com/in/wegii" target="_blank" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
+                 <a href="https://linkedin.com/in/wegii" target="_blank" className="p-3 bg-white/5 md:bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-white md:hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
                    <Linkedin size={20}/>
                  </a>
-                 <a href="https://scholar.google.com/citations?hl=en&user=aPmT8iQAAAAJ" target="_blank" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer" title="Google Scholar">
+                 <a href="https://scholar.google.com/citations?hl=en&user=aPmT8iQAAAAJ" target="_blank" className="p-3 bg-white/5 md:bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-white md:hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer" title="Google Scholar">
                    <GraduationCap size={20}/>
                  </a>
-                 <a href="mailto:wegmannp@in.tum.de" className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
+                 <a href="mailto:wegmannp@in.tum.de" className="p-3 bg-white/5 md:bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-white md:hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
                    <Mail size={20}/>
                  </a>
                  {/*<button onClick={toggleTheme} className="p-3 bg-gray-200 dark:bg-white/5 rounded-2xl hover:bg-gray-300 dark:hover:bg-white hover:text-black dark:hover:text-black transition-all cursor-pointer">
@@ -196,10 +196,10 @@ export default function App() {
               </div>
             </div>
 
-            <p className="text-gray-600 dark:text-zinc-400 text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: d.profile.bio }}>
+            <p className="text-zinc-400 md:text-gray-600 dark:text-zinc-400 text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: d.profile.bio }}>
             </p>
           </div>
-          <div className="pt-8 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-gray-500 dark:text-zinc-500 text-xs font-mono">
+          <div className="pt-8 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-zinc-500 md:text-gray-500 dark:text-zinc-500 text-xs font-mono">
             <div className="flex items-center gap-2"><MapPin size={14}/> {d.profile.location}</div>
             <div className="flex gap-4"><Mountain size={18}/> <Music size={18}/></div>
           </div>
@@ -217,12 +217,12 @@ export default function App() {
           </div>
           <div className="space-y-4">
             {d.publications.map((pub, i) => (
-                  <div key={i} className="group/item flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 hover:border-purple-500/40 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-all duration-300">
+                  <div key={i} className="group/item flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl bg-white/[0.03] md:bg-gray-50 dark:bg-white/[0.03] border border-white/10 md:border-gray-200 dark:border-white/10 hover:border-purple-500/40 hover:bg-white/[0.06] md:hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-all duration-300">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[9px] font-black bg-gray-300 dark:bg-zinc-800 text-gray-700 dark:text-zinc-400 px-2 py-0.5 rounded uppercase tracking-tighter border border-gray-400 dark:border-white/5">{pub.type}</span>
+                    <span className="text-[9px] font-black bg-zinc-800 md:bg-gray-300 dark:bg-zinc-800 text-zinc-400 md:text-gray-700 dark:text-zinc-400 px-2 py-0.5 rounded uppercase tracking-tighter border border-white/5 md:border-gray-400 dark:border-white/5">{pub.type}</span>
                     <span className="text-xs font-bold text-purple-600 dark:text-purple-400 font-mono tracking-tight">{pub.venue}</span>
-                    <span className="text-[10px] text-gray-600 dark:text-zinc-600 font-mono">{pub.year}</span>
+                    <span className="text-[10px] text-zinc-600 md:text-gray-600 dark:text-zinc-600 font-mono">{pub.year}</span>
                   </div>
                   <h3 className="text-black dark:text-white text-lg font-semibold group-hover/item:text-purple-300 transition-colors">{pub.title}</h3>
                 </div>
@@ -264,7 +264,7 @@ export default function App() {
           </div>
           <div className="space-y-4">
             {d.theses.map((t, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/20 hover:border-emerald-300 dark:hover:border-emerald-500/40 transition-colors group/thesis">
+              <div key={i} className="p-5 rounded-2xl bg-emerald-500/5 md:bg-emerald-50 dark:bg-emerald-500/5 border border-emerald-500/20 md:border-emerald-200 dark:border-emerald-500/20 hover:border-emerald-500/40 md:hover:border-emerald-300 dark:hover:border-emerald-500/40 transition-colors group/thesis">
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded mb-3 inline-block bg-emerald-500 text-black shadow-lg shadow-emerald-500/20">
                   {t.type}
                 </span>
@@ -294,7 +294,7 @@ export default function App() {
                 <div className="text-xs text-blue-400 mb-1 flex items-center gap-1">
                   <Globe size={10} /> {edu.institution}
                 </div>
-<p className="text-gray-500 dark:text-zinc-500 leading-relaxed uppercase tracking-wider">{edu.specialization}</p>
+<p className="text-zinc-500 md:text-gray-500 dark:text-zinc-500 leading-relaxed uppercase tracking-wider">{edu.specialization}</p>
                 
               </div>
             ))}
@@ -304,7 +304,7 @@ export default function App() {
       </div>
 
       <footer className="mt-20 text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-full text-[10px] font-bold text-gray-700 dark:text-zinc-500 uppercase tracking-widest shadow-xl">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 md:bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-full text-[10px] font-bold text-zinc-500 md:text-gray-700 dark:text-zinc-500 uppercase tracking-widest shadow-xl">
            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" /> 
            Last Sync: {new Date().toLocaleDateString()}
         </div>
