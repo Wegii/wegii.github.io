@@ -38,9 +38,9 @@ interface BentoCardProps {
 const SITE_DATA = {
   profile: {
     name: "Peter Wegmann",
-    role: "PhD Student @ Technical University of Munich",
+    role: "M.Sc. Student @ Technical University of Munich",
     location: "Munich, Germany",
-    bio: "I am a PhD student in the <a href=\"https://dse.in.tum.de/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"text-blue-400 underline\"><u>Systems Research Group</u></a> at the <a href=\"https://www.cit.tum.de/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"underline\"><u>Technical University of Munich</u></a>, supervised by <a href=\"https://dse.in.tum.de/bhatotia/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"underline\"><u>Prof. Pramod Bhatotia</u></a>. I am interested in compilers, quantum error correction, and next-generation quantum architectures.",
+    bio: "I am a M.Sc. student in the <a href=\"https://dse.in.tum.de/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"text-blue-400 underline\"><u>Systems Research Group</u></a> at the <a href=\"https://www.cit.tum.de/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"underline\"><u>Technical University of Munich</u></a>, supervised by <a href=\"https://dse.in.tum.de/bhatotia/\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"underline\"><u>Prof. Pramod Bhatotia</u></a>. I am interested in compilers, quantum error correction, and next-generation quantum architectures.",
     avatar: "/cover_image.jpeg",
   },
   publications: [
